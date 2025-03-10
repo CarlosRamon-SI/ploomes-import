@@ -1,0 +1,104 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+header {
+    background: #4CAF50;
+    color: white;
+    padding: 1em 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+nav ul li {
+    margin: 0 1em;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    padding: 2em;
+}
+
+.loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 50vw;
+    height: 50vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: #f7f9fb;
+    transition: opacity 0.75s, visibility 0.75s;
+    opacity: 0.5;
+}
+
+.hidden{
+    visibility: hidden;
+}
+
+.loader::after{
+    content: "";
+    width: 75px;
+    height: 75px;
+    border: 15px solid #dddddd;
+    border-top-color: cyan;
+    border-radius: 50%;
+    animation: loading 0.75s linear infinite;
+}
+
+@keyframes loading {
+    from {
+        transform: rotate(0turn);
+    }
+    to {
+        transform: rotate(2turn);
+    }
+}
+
+#updates {
+    width: 100%; /* largura fixa */
+    height: 500px; /* altura fixa */
+    overflow: auto; /* habilita a barra de rolagem quando necessário */
+    padding: 10px; /* espaçamento interno */
+}
+
+#update-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+#update-list li i {
+    margin-right: 8px; /* Espaço entre o ícone e o texto */
+}
+
+#update-list li i.fa-comment-dots {
+    color: gray; /* Escolha uma cor que se destaque no seu design */
+    opacity: 0.3;
+}
+
+#update-list li i.fa-check-circle {
+    color: green;
+}
+#update-list li i.fa-times-circle {
+    color: red;
+}
+#update-list li i.fa-exclamation-circle {
+    color: orange;
+}

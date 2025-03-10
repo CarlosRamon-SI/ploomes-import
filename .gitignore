@@ -1,0 +1,7 @@
+node_modules
+temp
+logs
+uploads
+ploomes-import.code-workspace
+*.md
+.env
