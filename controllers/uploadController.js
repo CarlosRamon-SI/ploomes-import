@@ -3,7 +3,6 @@ const { primeirasMaiusculas } = require('../utils/utils');
 const { sendUpdate, startLoader, stopLoader, erase } = require('../services/socket');
 const ExcelJS = require('exceljs');
 const axios = require('axios');
-var memoriaMacro = {};
 
 const codigo            = process.env.PRODUTO_CODIGO_KEY;
 const margem            = process.env.PRODUTO_MARGEM_KEY;
@@ -362,6 +361,7 @@ const updateMicro = async (produtoMicro, req) => {
 }
 
 exports.uploadProducts = async (req, res) => {
+    let memoriaMacro = {};
     
     startLoader();
     await erase();
@@ -422,10 +422,10 @@ exports.uploadProducts = async (req, res) => {
                         element.produtoMicro.id = await processoMicro(element.produtoMicro, req);
                     }
 
-                    //caso a id em memória seja igual a id do produto E haja um macro id E haja também um micro id
-                    if((memoriaMacro.id == element.produtoMacro.id) && element.produtoMacro.id && element.produtoMicro.id) {
-                        await vinculo(memoriaMacro.id, element.produtoMicro.id, req);
+                    if(element.produtoMacro.id && element.produtoMicro.id) {
+                        await vinculo(element.produtoMacro.id, element.produtoMicro.id, req);
                     }
+
                 } catch (error) {
                     sendUpdate(`Erro ao processar a linha ${element.number}: ${error.message}`, req);
                     console.warn(error.message)
