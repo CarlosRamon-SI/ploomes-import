@@ -4,7 +4,7 @@ const ExcelJS = require('exceljs');
 const axios = require('axios');
 const path = require('path');
 const fs = require('fs');
-const PRODUTOS_ENDPOINT = process.env.PRODUTO_ENDPOINT;
+const PRODUTO_ENDPOINT  = process.env.PRODUTO_ENDPOINT;
 const margem            = process.env.PRODUTO_MARGEM_KEY;
 const custoUnitario     = process.env.PRODUTO_CUSTOUNITARIO_KEY;
 const especificacoes    = process.env.PRODUTO_ESPECIFICACOES_KEY;
@@ -43,7 +43,7 @@ async function montaData(req) {
     const produtosMacro = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `${PRODUTOS_ENDPOINT}?$select=Name,Id,GroupId,CurrencyId&$filter=Lists/any(l: l/ListId+eq+${marcadoresId})&$orderby=Name+asc`,
+        url: `${PRODUTO_ENDPOINT}?$select=Name,Id,GroupId,CurrencyId&$filter=Lists/any(l: l/ListId+eq+${marcadoresId})&$orderby=Name+asc`,
         headers: {
             'Content-Type': 'application/json',
             'User-Key': `${process.env.TOKEN}`
@@ -53,7 +53,7 @@ async function montaData(req) {
     const grupos = {
         method: 'get',
         maxBodyLength: Infinity,
-        url: `${PRODUTOS_ENDPOINT}@Groups?$select=Id,Name&$orderby=Name+asc`,
+        url: `${PRODUTO_ENDPOINT}@Groups?$select=Id,Name&$orderby=Name+asc`,
         headers: {
             'Content-Type': 'application/json',
             'User-Key': `${process.env.TOKEN}`
@@ -62,7 +62,7 @@ async function montaData(req) {
 
     sendUpdate('Obtendo Grupos e Produtos cadastrados no Ploomes...', req);
     const respostaProdutosMacro = await axios(produtosMacro);
-    const respostaProdutosMicro = await fetchProdutosMicro(`${PRODUTOS_ENDPOINT}?$select=Name,Id,GroupId,Code,CurrencyId&$orderby=Name+asc&$filter=not+Lists/any(L: L/ListId+eq+${marcadoresId})&$expand=OtherProperties($filter=FieldKey+eq+'${custoUnitario}'+or+FieldKey+eq+'${margem}'+or+FieldKey+eq+'${especificacoes}';$select=FieldKey,DecimalValue,BigStringValue)`);
+    const respostaProdutosMicro = await fetchProdutosMicro(`${PRODUTO_ENDPOINT}?$select=Name,Id,GroupId,Code,CurrencyId&$orderby=Name+asc&$filter=not+Lists/any(L: L/ListId+eq+${marcadoresId})&$expand=OtherProperties($filter=FieldKey+eq+'${custoUnitario}'+or+FieldKey+eq+'${margem}'+or+FieldKey+eq+'${especificacoes}';$select=FieldKey,DecimalValue,BigStringValue)`);
     //                                                                          ?$select=Name,Id,GroupId,Code,CurrencyId&$orderby=Name+asc&$filter=not+Lists/any(L: L/ListId+eq+${marcadoresId})&$expand=OtherProperties($filter=FieldKey+eq+'${custoUnitario}'+or+FieldKey+eq+'${margem}'+or+FieldKey+eq+'${especificacoes}';$select=FieldKey,DecimalValue,BigStringValue)`,
     //                                                                          ?$select=Name,Id,GroupId,Code,CurrencyId&$orderby=Name+asc&$filter=not+Lists/any(L: L/ListId+eq+{{marcadoresId})&$expand=OtherProperties($select=FieldKey,DecimalValue,BigStringValue;$filter=FieldKey+eq+\'{{custoUnitario}\'+or+FieldKey+eq+\'{{margem}\'+or+FieldKey+eq+\'{{especificacoes}\')
     // const respostaProdutosMicro = await axios(produtosMicro);

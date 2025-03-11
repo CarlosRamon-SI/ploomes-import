@@ -226,8 +226,7 @@ const fetchProduto = async (row) => {
         if(typeof row.getCell(15).value === 'number') {
             produtoMicro.margem             = row.getCell(15).value.toFixed(2); // COLUNA: 13
         } else {
-            let result = row.getCell(15).result;
-            !result ? produtoMicro.margem = 0 : produtoMicro.margem = result.toFixed(2); // COLUNA: 13
+            produtoMicro.margem             = row.getCell(15).result.toFixed(2); // COLUNA: 13
         }
         
         if(typeof row.getCell(17).value === 'string') {
@@ -263,7 +262,6 @@ const processoMacro = async (produtoMacro, req) => {
 
         //para todo caso, é registrado em memória a id do produto macro
         memoriaMacro.id = produtoMacro.id;
-        return produtoMacro.id;
     } catch (error) {
         sendUpdate(`Falha ao operar produto Macro: ${error.message}`, req);
         console.error(error);
@@ -317,7 +315,7 @@ const updateMacro = async (produtoMacro, req) => {
         sendUpdate(`Produto Macro atualizado`, req);
         return responseMacro.data.value[0].Id;
     } catch (error) {
-        sendUpdate(`Falha ao atualizar produto Macro: ${error.message}`, req);
+        sendUpdate(`Falha ao criar produto Macro: ${error.message}`, req);
     }
 }
 
